@@ -12,9 +12,8 @@ class ActiveQuery(models.QuerySet):
 # Create your models here.
 class Category(MPTTModel):
     name = models.CharField(max_length=100)
-    parent = TreeForeignKey(
-        "self", on_delete=models.PROTECT, null=True, blank=True
-    )  # self relationship.(sub category)
+    # self relationship.(sub category)
+    parent = TreeForeignKey("self", on_delete=models.PROTECT, null=True, blank=True)
 
     class MPPTTMeta:
         order_insertion_by = ["name"]
@@ -36,12 +35,9 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     is_digital = models.BooleanField(default=False)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    category = TreeForeignKey(
-        "Category", on_delete=models.SET_NULL, null=True, blank=True
-    )
-    is_active = models.BooleanField(
-        default=False
-    )  # field to check if products are still active
+    category = TreeForeignKey("Category", on_delete=models.SET_NULL, null=True, blank=True)
+    # field to check if products are still active
+    is_active = models.BooleanField(default=False)
 
     objects = ActiveQuery.as_manager()  # custom queryset reference
 
@@ -59,9 +55,7 @@ class Attribute(models.Model):
 
 class AttributeValue(models.Model):
     attribute_value = models.CharField(max_length=100)
-    attribute = models.ForeignKey(
-        Attribute, on_delete=models.CASCADE, related_name="attribute_value"
-    )
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, related_name="attribute_value")
 
     def __str__(self):
         return f"{self.attribute}-{self.attribute_value}"
@@ -71,9 +65,7 @@ class ProductLine(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=6)
     sku = models.CharField(max_length=100)
     quantity = models.IntegerField()
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="product_line"
-    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_line")
     is_active = models.BooleanField(default=False)
     order = models.PositiveIntegerField(blank=True)
     attribute_value = models.ManyToManyField(
@@ -95,9 +87,7 @@ class ProductLineAttributeValue(models.Model):
         related_name="product_attribute_value_av",
     )
 
-    product_line = models.ForeignKey(
-        ProductLine, on_delete=models.CASCADE, related_name="product_attribute_value_pl"
-    )
+    product_line = models.ForeignKey(ProductLine, on_delete=models.CASCADE, related_name="product_attribute_value_pl")
 
     class Meta:
         unique_together = ("attribute_value", "product_line")
@@ -106,9 +96,7 @@ class ProductLineAttributeValue(models.Model):
 class ProductImage(models.Model):
     alt_text = models.CharField(max_length=100)
     url = models.ImageField(upload_to=None, default="test.jpg")
-    productline = models.ForeignKey(
-        ProductLine, on_delete=models.CASCADE, related_name="product_image"
-    )
+    productline = models.ForeignKey(ProductLine, on_delete=models.CASCADE, related_name="product_image")
     order = models.PositiveIntegerField(blank=True)
 
     def clean(self):
@@ -144,9 +132,7 @@ class ProductTypeAttribute(models.Model):
         related_name="product_type_attribute_pt",
     )
 
-    attribute = models.ForeignKey(
-        Attribute, on_delete=models.CASCADE, related_name="product_type_attribute_a"
-    )
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, related_name="product_type_attribute_a")
 
     class Meta:
         unique_together = ("attribute", "product_type")

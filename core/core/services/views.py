@@ -4,8 +4,6 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-
-
 # Create your views here.
 
 
@@ -19,5 +17,3 @@ def home(request):
         "/services/api/authentication/",
     ]
     return Response(routes)
-
-

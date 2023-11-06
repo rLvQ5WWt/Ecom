@@ -1,16 +1,9 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+
 from .models import (
-    Category,
-    Brand,
-    Product,
-    ProductLine,
-    ProductImage,
-    Attribute,
-    AttributeValue,
-    ProductType,
-    ProductTypeAttribute,
+    Attribute, AttributeValue, Brand, Category, Product, ProductImage, ProductLine, ProductType, ProductTypeAttribute,
 )
 
 # Register your models here.
@@ -19,9 +12,11 @@ from .models import (
 class EditLinkInline(object):
     def edit(self, instance):
         url = reverse(
-            f"admin:{instance._meta.app_label}_{instance._meta.model_name}_change",
+            f"admin:{instance._meta.app_label}_{
+                instance._meta.model_name}_change",
             args=[instance.pk],
         )
+
         if instance.pk:
             link = mark_safe('<a href="{url}">edit</a>'.format(url=url))
             return link

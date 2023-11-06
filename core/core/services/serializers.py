@@ -4,10 +4,6 @@ from django.db import transaction
 from rest_framework import serializers
 
 
-
-
-
-
 class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(write_only=True)
     last_name = serializers.CharField(write_only=True)
