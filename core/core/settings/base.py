@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "dj_rest_auth.registration",
     "core.product",
+    "core.services"
 ]
 
 MIDDLEWARE = [
@@ -50,6 +57,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -115,4 +123,24 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-REST_FRAMEWORK = {}
+# Authentication Backends
+SITE_ID = 1
+REST_FRAMEWORK = {"DEFAULT_AUTHENTICATION_CLASSES": ("dj_rest_auth.jwt_auth.JWTCookieAuthentication",)}
+
+REST_AUTH = {
+    # JWT
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "my-app-auth",
+    "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
+    "JWT_AUTH_HTTPONLY": True,
+    # Authentication
+    "REGISTER_SERIALIZER": "core.services.serializers.CustomRegisterSerializer",
+}
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+AUTHENTICATION_BACKENDS = [
+    "allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
