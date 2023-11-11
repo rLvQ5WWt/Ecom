@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "core.product",
     "core.services",
+    "core.cart"
 ]
 
 MIDDLEWARE = [
@@ -75,6 +76,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+
             ],
         },
     },

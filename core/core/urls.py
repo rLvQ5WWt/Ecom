@@ -16,6 +16,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
     path("services/", include("core.services.urls")),
+    path('shop/', include('core.cart.urls')),
     # Use the alias for the services app view
     path("", services_views.home, name="home"),
 ]
