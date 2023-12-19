@@ -18,4 +18,5 @@ urlpatterns = [
     path("services/", include("core.services.urls")),
     # Use the alias for the services app view
     path("", services_views.home, name="home"),
+    path('cart/', include('core.cart.urls')),
 ]

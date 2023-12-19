@@ -12,8 +12,7 @@ from .models import (
 class EditLinkInline(object):
     def edit(self, instance):
         url = reverse(
-            f"admin:{instance._meta.app_label}_{
-                instance._meta.model_name}_change",
+            f"admin:{instance._meta.app_label}_{instance._meta.model_name}_change",
             args=[instance.pk],
         )
 
@@ -22,7 +21,6 @@ class EditLinkInline(object):
             return link
         else:
             return ""
-
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
