@@ -1,40 +1,12 @@
-# urls.py
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
+from .views import CartView, CartItemView, ShippingInfoView, TransactionView
 
-from .views import *
-
-# Create a router object.
-router = DefaultRouter()
-# Register the CartView with the router under the path 'carts'.
-router.register(r'carts', CartView, basename='cart')
-# Register the CartItemView with the router under the path 'cart-items'.
-router.register(r'cart-items', CartItemView, basename='cart-item')
-router.register(r'orders', CheckoutView, basename='order')
-# Define the URL patterns for this app.
 urlpatterns = [
-    # Include the router's URLs.
-    path('', include(router.urls)),
+    path('carts/', CartView.as_view(), name='cart'),
+    path('cart-items/', CartItemView.as_view(), name='cart-item'),
+    path('shipping-info/', ShippingInfoView.as_view(), name='shipping-info'),
+    path('transactions/', TransactionView.as_view(), name='transaction'),
 ]
 
-"""
-This will generate the following URLs:
-
-For Carts:
-- List: GET /carts/
-- Create: POST /carts/
-- Retrieve: GET /carts/{id}/
-- Update: PUT /carts/{id}/
-- Partial Update: PATCH /carts/{id}/
-- Delete: DELETE /carts/{id}/
-
-For CartItems:
-- List: GET /cart-items/
-- Create: POST /cart-items/
-- Retrieve: GET /cart-items/{id}/
-- Update: PUT /cart-items/{id}/
-- Partial Update: PATCH /cart-items/{id}/
-- Delete: DELETE /cart-items/{id}/
-
-Replace {id} with the ID of the Cart or CartItem you want to retrieve, update, or delete.
-"""
+urlpatterns = format_suffix_patterns(urlpatterns)

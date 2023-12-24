@@ -23,14 +23,25 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'created_at', 'items']
 
 
+
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['product_line', 'quantity', 'total_price']
+        fields = ['id', 'product_line', 'quantity', 'total_price']
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True)
+    items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
-        fields = ['user', 'total', 'items']
+        fields = ['id', 'user', 'total']
+
+class ShippingInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingInfo
+        fields = '__all__'
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = '__all__'
